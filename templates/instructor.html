@@ -1,0 +1,11 @@
+{% extends "base.html" %}{% block title %}My Courses{% endblock %}
+{% block content %}
+<div class="card"><h2>Courses I Teach</h2><div class="table-wrap"><table>
+<tr><th>Course</th><th>Title</th><th>Credits</th><th>Enrolled</th><th></th></tr>
+{% for c in courses %}
+<tr><td>{{ c.course_id }}</td><td>{{ c.course_name }}</td><td>{{ c.credits }}</td>
+<td>{{ c.enrolled }} / {{ c.capacity }}</td>
+<td><a class="btn" href="{{ url_for('course_students', course_id=c.course_id) }}">Students &amp; grades</a></td></tr>
+{% else %}<tr><td colspan="5" class="muted">No courses assigned.</td></tr>{% endfor %}
+</table></div></div>
+{% endblock %}

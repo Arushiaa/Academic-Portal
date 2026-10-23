@@ -1,0 +1,39 @@
+{% extends "base.html" %}{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="card"><h2>Student Summary</h2><div class="body summary">
+  <div><span>Name</span><b>{{ student.name }}</b></div>
+  <div><span>Roll No.</span><b>{{ student.roll_number }}</b></div>
+  <div><span>Programme</span><b>{{ student.programme }}</b></div>
+  <div><span>Department</span><b>{{ student.department }}</b></div>
+  <div><span>Status</span><b>{{ student.academic_status }}</b></div>
+  <div><span>Semester</span><b>{{ student.semester }}</b></div>
+  <div><span>CPI</span><b>{{ '%.2f' % cpi if cpi is not none else '—' }}</b></div>
+  <div><span>Credits earned</span><b>{{ earned }}</b></div>
+</div></div>
+
+<div class="card"><h2>My Registered Courses
+  <span class="credits">{{ current_credits }} / {{ max_credits }} credits</span></h2>
+<div class="table-wrap"><table>
+<tr><th>Course</th><th>Title</th><th>Instructor</th><th>Credits</th><th></th></tr>
+{% for c in registered %}
+<tr><td>{{ c.course_id }}</td><td>{{ c.course_name }}</td><td>{{ c.instructor }}</td><td>{{ c.credits }}</td>
+<td><form class="inline" method="post" action="{{ url_for('drop') }}">
+  <input type="hidden" name="course_id" value="{{ c.course_id }}"><button class="drop">Drop</button></form></td></tr>
+{% else %}<tr><td colspan="5" class="muted">No courses registered.</td></tr>{% endfor %}
+</table></div></div>
+
+<div class="card"><h2>Available Courses</h2><div class="table-wrap"><table>
+<tr><th>Course</th><th>Title</th><th>Instructor</th><th>Credits</th><th>Seats</th><th></th></tr>
+{% for c in courses %}
+<tr><td>{{ c.course_id }}</td><td>{{ c.course_name }}</td><td>{{ c.instructor }}</td><td>{{ c.credits }}</td>
+<td>{{ c.enrolled }} / {{ c.capacity }}</td>
+<td>{% if c.registered %}<button disabled>Registered</button>
+{% elif c.completed %}<button disabled>Completed</button>
+{% else %}<form class="inline" method="post" action="{{ url_for('register') }}">
+  <input type="hidden" name="course_id" value="{{ c.course_id }}"><button>Register</button></form>{% endif %}</td></tr>
+{% endfor %}
+</table></div></div>
+
+<div class="card"><h2>Academic Record <a class="credits" style="color:#fff" href="{{ url_for('transcript') }}">Full grade sheet →</a></h2>
+{% include "_grade_table.html" %}</div>
+{% endblock %}

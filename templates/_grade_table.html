@@ -1,0 +1,13 @@
+<div class="table-wrap"><table>
+<tr><th>Course</th><th>Title</th><th>Credits</th><th>Grade</th></tr>
+{% for s in semesters %}
+  <tr class="sem"><td colspan="4">Semester {{ s.semester }}</td></tr>
+  {% for c in s.courses %}
+  <tr><td>{{ c.course_id }}</td><td>{{ c.course_name }}</td><td>{{ c.credits }}</td><td>{{ c.grade }}</td></tr>
+  {% endfor %}
+  <tr class="total"><td colspan="2">Credits earned: {{ s.credits_earned }} / {{ s.credits_attempted }}</td>
+    <td colspan="2">SPI: {{ '%.2f' % s.spi if s.spi is not none else '—' }} &nbsp;|&nbsp; CPI: {{ '%.2f' % s.cpi if s.cpi is not none else '—' }}</td></tr>
+{% else %}
+  <tr><td colspan="4" class="muted">No grades recorded yet.</td></tr>
+{% endfor %}
+</table></div>

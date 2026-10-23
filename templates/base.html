@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Academic Portal{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body>
+<nav>
+  <span class="brand">Academic Portal</span>
+  {% if session.role == 'student' %}
+    <a href="{{ url_for('dashboard') }}">Dashboard</a>
+    <a href="{{ url_for('transcript') }}">Grade Sheet</a>
+  {% elif session.role == 'instructor' %}
+    <a href="{{ url_for('instructor_dashboard') }}">My Courses</a>
+  {% endif %}
+  {% if session.role %}<span>{{ session.name }}</span><a href="{{ url_for('logout') }}">Logout</a>{% endif %}
+</nav>
+<main>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for cat, msg in messages %}<div class="flash {{ cat }}">{{ msg }}</div>{% endfor %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+</main></body></html>

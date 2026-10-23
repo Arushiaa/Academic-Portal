@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% block title %}Login{% endblock %}
+{% block content %}
+<div class="card login"><h2>Sign in</h2><div class="body">
+  {% if error %}<div class="flash error">{{ error }}</div>{% endif %}
+  <form method="post">
+    <label>I am a</label>
+    <select name="role"><option value="student">Student</option><option value="instructor">Instructor</option></select>
+    <label>Username</label><input name="username" required autofocus>
+    <label>Password</label><input name="password" type="password" required>
+    <button type="submit">Login</button>
+  </form></div></div>
+{% endblock %}

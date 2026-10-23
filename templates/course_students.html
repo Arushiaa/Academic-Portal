@@ -1,0 +1,29 @@
+{% extends "base.html" %}{% block title %}{{ course.course_id }}{% endblock %}
+{% block content %}
+<p><a href="{{ url_for('instructor_dashboard') }}">← My courses</a></p>
+<div class="card"><h2>{{ course.course_id }} — {{ course.course_name }}: Enrolled students</h2>
+<div class="table-wrap"><table>
+<tr><th>Roll No.</th><th>Name</th><th>Sem</th><th>Assign grade</th></tr>
+{% for s in enrolled %}
+<tr><td>{{ s.roll_number }}</td><td>{{ s.name }}</td><td>{{ s.semester }}</td>
+<td><form class="inline" method="post" action="{{ url_for('assign_grade') }}">
+  <input type="hidden" name="course_id" value="{{ course.course_id }}">
+  <input type="hidden" name="student_id" value="{{ s.id }}">
+  <select name="grade">{% for g in grades %}<option>{{ g }}</option>{% endfor %}</select>
+  <button>Save</button></form></td></tr>
+{% else %}<tr><td colspan="4" class="muted">No students currently enrolled.</td></tr>{% endfor %}
+</table></div></div>
+
+<div class="card"><h2>Graded students</h2><div class="table-wrap"><table>
+<tr><th>Roll No.</th><th>Name</th><th>Sem</th><th>Grade (edit)</th></tr>
+{% for s in graded %}
+<tr><td>{{ s.roll_number }}</td><td>{{ s.name }}</td><td>{{ s.semester }}</td>
+<td><form class="inline" method="post" action="{{ url_for('assign_grade') }}">
+  <input type="hidden" name="course_id" value="{{ course.course_id }}">
+  <input type="hidden" name="student_id" value="{{ s.id }}">
+  <input type="hidden" name="semester" value="{{ s.semester }}">
+  <select name="grade">{% for g in grades %}<option {{ 'selected' if g == s.grade }}>{{ g }}</option>{% endfor %}</select>
+  <button>Update</button></form></td></tr>
+{% else %}<tr><td colspan="4" class="muted">No grades yet.</td></tr>{% endfor %}
+</table></div></div>
+{% endblock %}

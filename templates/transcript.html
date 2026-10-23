@@ -1,0 +1,6 @@
+{% extends "base.html" %}{% block title %}Grade Sheet{% endblock %}
+{% block content %}
+<div class="card"><h2>Grade Sheet — {{ student.name }} ({{ student.roll_number }})</h2>
+{% include "_grade_table.html" %}
+<div class="body"><b>Overall CPI:</b> {{ '%.2f' % cpi if cpi is not none else '—' }} &nbsp;|&nbsp; <b>Total credits earned:</b> {{ earned }}</div></div>
+{% endblock %}
